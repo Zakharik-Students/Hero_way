@@ -1,6 +1,7 @@
 import numpy as np
 from step_functs import step_up, step_down, step_left, step_right
 from travers_functs import wall_travers
+from const import HERO, POINT, WALL
 
 def create_arr():
     rows = int(input("Rows: "))
@@ -14,30 +15,30 @@ def create_arr():
 
 def simple_steps(area, hero, point):
     while hero[0] != point[0]:
-        if hero[0] > point[0] and area[hero[0]-1, hero[1]] == 3:
+        if hero[0] > point[0] and area[hero[0]-1, hero[1]] == WALL:
             area, hero = wall_travers(area, hero, point, (1, 0))
         elif hero[0] > point[0]:
             area = step_up(hero, area)
             print(area, "\n")
-        if hero[0] < point[0] and area[hero[0]+1, hero[1]] == 3:
+        if hero[0] < point[0] and area[hero[0]+1, hero[1]] == WALL:
             area, hero = wall_travers(area, hero, point, (-1, 0)) 
         elif hero[0] < point[0]:
             area = step_down(hero, area)
             print(area, "\n")
-        hero = np.where(area == 1)
+        hero = np.where(area == HERO)
 
     while hero[1] != point[1]:
-        if hero[1] > point[1] and area[hero[0], hero[1]-1] == 3:
+        if hero[1] > point[1] and area[hero[0], hero[1]-1] == WALL:
             area, hero = wall_travers(area, hero, point, (0, 1))
         elif hero[1] > point[1]:
             area = step_left(hero, area)
             print(area, "\n")
-        if hero[1] < point[1] and area[hero[0], hero[1]+1] == 3:
+        if hero[1] < point[1] and area[hero[0], hero[1]+1] == WALL:
             area, hero = wall_travers(area, hero, point, (0, -1))
         elif hero[1] < point[1]:
             area = step_right(hero, area)
             print(area, "\n")
-        hero = np.where(area == 1)
+        hero = np.where(area == HERO)
     return area, hero
         
 def main_loop(area, hero, point):

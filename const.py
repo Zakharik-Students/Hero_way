@@ -1,0 +1,3 @@
+HERO = 1
+POINT = 2
+WALL = 3

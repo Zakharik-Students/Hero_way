@@ -3,30 +3,32 @@
 import numpy as np
 from copy import deepcopy
 from step_functs import step_up, step_down, step_right, step_left
+from const import HERO, POINT, WALL
 
-def wall_length(area, hero, side_of_wall):
+
+def _wall_length(area, hero, side_of_wall):
     up, down, right, left = 0, 0, 0, 0
     area_1 = area.copy()
     hero_1 = deepcopy(hero)
-    while area_1[hero_1[0]-side_of_wall[0], hero_1[1]-side_of_wall[1]] == 3:
-        if side_of_wall[0]:
+    while area_1[hero_1[0]-side_of_wall[0], hero_1[1]-side_of_wall[1]] == WALL:
+        if side_of_wall[0]:        
             area_1 = step_right(hero_1, area_1)
-            hero_1 = np.where(area_1 == 1)
+            hero_1 = np.where(area_1 == HERO)
             right += 1
         else:
             area_1 = step_down(hero_1, area_1)
-            hero_1 = np.where(area_1 == 1)
+            hero_1 = np.where(area_1 == HERO)
             down += 1
     area_1 = area.copy()
     hero_1 = deepcopy(hero)
-    while area_1[hero_1[0]-side_of_wall[0], hero_1[1]-side_of_wall[1]] == 3:
+    while area_1[hero_1[0]-side_of_wall[0], hero_1[1]-side_of_wall[1]] == WALL:
         if side_of_wall[0]:
             area_1 = step_left(hero_1, area_1)
-            hero_1 = np.where(area_1 == 1)
+            hero_1 = np.where(area_1 == HERO)
             left += 1
         else:
             area_1 = step_up(hero_1, area_1)
-            hero_1 = np.where(area_1 == 1) 
+            hero_1 = np.where(area_1 == HERO) 
             up += 1
     if side_of_wall[0]:
         return ("right", right) if right <= left else ("left", left)
@@ -34,28 +36,28 @@ def wall_length(area, hero, side_of_wall):
         return ("down", down) if down <= up else("up", up)
 
 def wall_travers(area, hero, point, side_of_wall):
-    side_and_length = wall_length(area, hero, side_of_wall)
+    side_and_length = _wall_length(area, hero, side_of_wall)
     side, length = side_and_length[0], side_and_length[1]
     if side  == "up":
         for i in range(length):
             area = step_up(hero, area)
             print(area, "\n")
-            hero = np.where(area == 1)
+            hero = np.where(area == HERO)
     elif side == "down":
         for i in range(length):
             area = step_down(hero, area)
             print(area, "\n")
-            hero = np.where(area == 1)
+            hero = np.where(area == HERO)
     elif side  == "right":
         for i in range(length):
             area = step_right(hero, area)
             print(area, "\n")
-            hero = np.where(area == 1)
+            hero = np.where(area == HERO)
     elif side == "left":
         for i in range(length):
             area = step_left(hero, area)
             print(area, "\n")
-            hero = np.where(area == 1)
+            hero = np.where(area == HERO)
 
     return area, hero
  
