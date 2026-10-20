@@ -6,35 +6,29 @@ from step_functs import step_up, step_down, step_right, step_left
 from const import HERO, POINT, WALL
 
 def condition_1(area_1, hero_1, side_of_wall) -> bool:
-    if hero_1[1] <= np.size(area_1, axis=1)-2:
-        if area_1[hero_1[0], hero_1[1]] != 3:
+    if side_of_wall[0]:
+        if hero_1[1] <= np.size(area_1, axis=1)-2 and area_1[hero_1[0], hero_1[1]] != 3:
             return True
         else:
             return False
     else:
+        if hero_1[0] <= np.size(area_1, axis=0)-2 and area_1[hero_1[0], hero_1[1]] != 3:
+            return True
+        else:
             return False
 
 def condition_2(area_1, hero_1, side_of_wall) -> bool:
-    if hero_1[1] == 0:
-        return False
-    else:
-        return True
-
-def condition_3(area_1, hero_1, side_of_wall) -> bool:
-    if hero_1[0] <= np.size(area_1, axis=0)-2:
-        if area_1[hero_1[0], hero_1[1]] != 3:
-            return True
+    if side_of_wall[0]:
+        if hero_1[1] == 0:
+            return False
         else:
-            return False
+            return True
     else:
+        if hero_1[0] == 0:
             return False
-
-def condition_4(area_1, hero_1, side_of_wall) -> bool:
-    if hero_1[0] == 0:
-        return False
-    else:
-        return True
-
+        else:
+            return True
+   
 
 def _wall_length(area, hero, side_of_wall):
     up, down, right, left = 0, 0, 0, 0
@@ -50,7 +44,7 @@ def _wall_length(area, hero, side_of_wall):
                 right = 1000
                 break
         else:
-            if condition_3(area_1, hero_1, side_of_wall):
+            if condition_1(area_1, hero_1, side_of_wall):
                 area_1 = step_down(hero_1, area_1)
                 hero_1 = np.where(area_1 == HERO)
                 down += 1
@@ -69,7 +63,7 @@ def _wall_length(area, hero, side_of_wall):
                 left = 1000
                 break
         else:
-            if condition_4(area_1, hero_1, side_of_wall):
+            if condition_2(area_1, hero_1, side_of_wall):
                 area_1 = step_up(hero_1, area_1)
                 hero_1 = np.where(area_1 == HERO) 
                 up += 1
